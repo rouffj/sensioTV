@@ -26,8 +26,12 @@ class MovieController extends AbstractController
      */
     public function detail($id): Response
     {
+        if (!$movie = $this->getMovieById($id)) {
+            throw $this->createNotFoundException('Movie Not found');
+        }
+
         return $this->render('movie/movie-details.html.twig', [
-            'controller_name' => 'MovieController',
+            'movie' => $movie,
         ]);
     }
 
@@ -55,6 +59,7 @@ class MovieController extends AbstractController
     public function topRated(): Response
     {
         return $this->render('movie/movie-top-rated.html.twig', [
+            'movies' => $this->getMovies()
         ]);
     }
 
@@ -85,5 +90,14 @@ class MovieController extends AbstractController
             ['id' => 5, 'title' => 'Man Of Steel', 'releaseDate' => 2013, 'director' => 'Christopher Nolan', 'duration' => '143', 'image' => '/assets/images/movie-image-samples/man-of-steel.jpeg'],
             ['id' => 6, 'title' => 'Dunkirk', 'releaseDate' => 2017, 'director' => 'Christopher Nolan', 'duration' => '106', 'image' => '/assets/images/movie-image-samples/dunkirk.jpeg'],
         ];
+    }
+
+    private function getMovieById(int $id) 
+    {
+        foreach ($this->getMovies() as $movie) {
+            if ($movie['id'] == $id) {
+                return $movie;
+            }
+        }
     }
 }
