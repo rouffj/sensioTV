@@ -1,2 +1,6 @@
 twig:
     default_path: '%kernel.project_dir%/templates'
+
+    # Make Symfony write convenient html output for Bootstrap
+    form_themes:
+        - bootstrap_4_horizontal_layout.html.twig
